@@ -35,28 +35,32 @@ def insta(email):
 	                'first_name': 'AA',
 	                'opt_into_one_tap': 'True',
 	                }
-	req = requests.post(url, headers=headers, data=data).json()
-	if "email" in req['errors'] and "email_is_taken" in req['errors']["email"][0]["code"]:
+	req = requests.post(url, headers=headers, data=data)
+	print(req.json())
+	if "email_is_taken" in req.text:
 		return jsonify({
-			'by':'@iiyiu',
-			'email':f'{email}',
-			'message':'Available iG',
-			'status':True
-		})
-	elif 'spam' in req:
+   'by':'@iiyiu',
+   'email':f'{email}',
+   'message':'Available iG',
+   'status':True
+  })
+	elif "spam" in req.text:
 		return jsonify({
-			'by':'@iiyiu',
-			'email':f'{email}',
-			'message':'spam - Api blocked from instagram',
-			'status':"Blocked"
-		})
+   'by':'@iiyiu',
+   'email':f'{email}',
+   'message':'spam - Api blocked from instagram',
+   'status':"Blocked"
+  })
 	else:
 		return jsonify({
-			'by':'@iiyiu',
-			'email':f'{email}',
-			'message':'unAvailable iG',
-			'status':False,
-		})
+   'by':'@iiyiu',
+   'email':f'{email}',
+   'message':'unAvailable iG',
+   'status':False,
+  })
+insta("hassanjejeh@hotmail.com")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
