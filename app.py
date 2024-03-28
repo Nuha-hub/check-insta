@@ -36,28 +36,27 @@ def insta(email):
 	                'opt_into_one_tap': 'True',
 	                }
 	req = requests.post(url, headers=headers, data=data).json()
-	
-	if "email" in req and "email_is_taken" in req['errors']["email"][0]["code"]:
-		return jsonify({
+	if "email" in req['errors'] and "email_is_taken" in req['errors']["email"][0]["code"]:
+		print({
 			'by':'@iiyiu',
 			'email':f'{email}',
 			'message':'Available iG',
 			'status':True
 		})
 	elif 'spam' in req:
-		return jsonify({
+		print({
 			'by':'@iiyiu',
 			'email':f'{email}',
 			'message':'spam - Api blocked from instagram',
 			'status':"Blocked"
 		})
 	else:
-		return jsonify({
+		print({
 			'by':'@iiyiu',
 			'email':f'{email}',
 			'message':'unAvailable iG',
 			'status':False,
-			'response':f'{req}'
 		})
+
 if __name__ == '__main__':
     app.run(debug=True)
