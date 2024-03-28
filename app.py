@@ -56,7 +56,7 @@ def insta(email):
 			'by':'@iiyiu',
 			'email':f'{email}',
 			'message':'unAvailable iG',
-			'status':False
+			'status':False,
 			f'{req}'
 		})
 if __name__ == '__main__':
