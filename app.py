@@ -59,5 +59,5 @@ def insta(email):
    'message':'unAvailable iG',
    'status':False
   })
-if name == '__main__':
+if __name__ == '__main__':
     app.run(debug=True)
