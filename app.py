@@ -58,7 +58,7 @@ def insta(email):
    'message':'unAvailable iG',
    'status':False,
   })
-insta("hassanjejeh@hotmail.com")
+
 
 
 
