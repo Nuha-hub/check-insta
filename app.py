@@ -1,15 +1,11 @@
 from flask import Flask, jsonify, request
-import secrets,user_agent,requests,os
-from threading import Lock
-import rich
-import concurrent.futures
 import requests
 from secrets import token_hex
 import uuid
 from user_agent import generate_user_agent
 from requests import post
 from requests import get
-from AegosPy import GetInfoInsta
+
 
 
 app = Flask(__name__)
