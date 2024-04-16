@@ -37,5 +37,5 @@ def chk(email):
   headers.update({"x-ig-set-www-claim":"0"})
   headers.update({"x-csrftoken": ctk})
   return  jsonify(rs3.text)
-if name == '__main__':
+if __name__ == '__main__':
     app.run(debug=True)
