@@ -8,6 +8,15 @@ from requests import get
 import random , hashlib , time
 
 app = Flask(__name__)
+def get_proxs():
+	o=requests.get("https://github.com/Nuha-hub/check-insta/blob/main/proxies.txt").text
+	oo='"]'
+	m="["+o.split("['27.147.24.205:8080',")[1].split(f"'117.93.115.31:28643']{oo}")[0].strip()+"]"
+	m = m.strip('[]').replace("'", "")
+	my_list = m.split(',')
+	proxy=random.choice(my_list)
+	proxs= {'http': f'socks4://{proxy}'}
+	return proxs
 
 @app.route('/check_email/<email>', methods=['GET'])
 def chk(email):
@@ -22,17 +31,8 @@ def chk(email):
               "x-csrftoken": ctk,
               "x-ig-www-claim": "0",
           }
-  rs3 = ma.post(
-              "https://www.instagram.com/api/v1/web/accounts/login/ajax/",
-              headers=headers,
-  data={
-                  "enc_password": password,
-                  "username": email,
-                  "queryParams": "{}",
-                  "optIntoOneTap": "false",
-                  "trustedDeviceRecords": "{}"
-              },
-          )
+  r=get_proxs()
+  rs3 = ma.post("https://www.instagram.com/api/v1/web/accounts/login/ajax/",headers=headers,data={"enc_password": password,"username": email,"queryParams": "{}","optIntoOneTap": "false","trustedDeviceRecords": "{}"},proxies=r)
 
   headers.update({"x-ig-set-www-claim":"0"})
   headers.update({"x-csrftoken": ctk})
