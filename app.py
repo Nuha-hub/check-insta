@@ -18,7 +18,7 @@ def chk(email):
   rs3 = ma.get('https://www.instagram.com/accounts/login/')
   ctk = rs3.text.replace("\\", "").split('csrf_token\":\"')[1].split('"')[0]
   headers = {
-              "user-agent": user_agent.generate_user_agent(),
+              "user-agent":generate_user_agent(),
               "x-csrftoken": ctk,
               "x-ig-www-claim": "0",
           }
