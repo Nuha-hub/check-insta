@@ -9,14 +9,11 @@ import random , hashlib , time
 
 app = Flask(__name__)
 def get_proxs():
-	o=requests.get("https://github.com/Nuha-hub/check-insta/blob/main/proxies.txt").text
-	oo='"]'
-	m="["+o.split("['27.147.24.205:8080',")[1].split(f"'117.93.115.31:28643']{oo}")[0].strip()+"]"
-	m = m.strip('[]').replace("'", "")
-	my_list = m.split(',')
-	proxy=random.choice(my_list)
-	proxs= {'http': f'socks4://{proxy}'}
-	return proxs
+        o = requests.get("https://raw.githubusercontent.com/Nuha-hub/check-insta/main/proxies.txt").text
+        o=o.splitlines()
+        proxy = random.choice(o)
+        proxs = {"http": f"//{proxy}", }
+        return proxs
 
 @app.route('/check_email/<email>', methods=['GET'])
 def chk(email):
