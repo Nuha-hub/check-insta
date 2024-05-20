@@ -16,7 +16,7 @@ from hashlib import md5
 
 app = Flask(__name__)
 
-@app.route('/check/username_or_email=<email>|by/cc_02', methods=['GET'])
+@app.route('/check/username_or_email=<email>/by/cc_02', methods=['GET'])
 def chk(email):
 	ma = requests.Session()
 	passwor = f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:hassan11inthetop878n"
