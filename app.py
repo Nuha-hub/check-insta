@@ -36,7 +36,7 @@ def login(email,password):
 	
 	headers.update({"x-ig-set-www-claim":"0"})
 	headers.update({"x-csrftoken": ctk})
-	#print(rs3.text)
+	print(rs3.text)
 	if "userId" in rs3.text:
 		return f'Good Login✅ : {email}:{password}\nReq:{rs3.text}'
 	elif "checkpoint_required" in rs3.text:
