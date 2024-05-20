@@ -1,26 +1,31 @@
 from flask import Flask, jsonify, request
 import requests
-import time
 from user_agent import generate_user_agent
+import re
+import time
 
 app = Flask(__name__)
 
-@app.route('/login/username=<email>/password=<password>/by/cc_02', methods=['GET'])
-def login(email, password):
-    ma = requests.Session()
-    passwor = f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:{password}"
-    s3 = ma.get('https://www.instagram.com/accounts/login/')
-    rs3 = ma.get('https://www.instagram.com/accounts/login/')
-    ctk = rs3.text.replace("\\", "").split('csrf_token\":\"')[1].split('"')[0]
+@app.route('/login', methods=['GET'])
+def login():
+    email = request.args.get('username')
+    password = request.args.get('password')
     
-    user_agent = request.headers.get('User-Agent')
+    if not email or not password:
+        return jsonify({"error": "username and password required"}), 400
+
+    session = requests.Session()
+    passwor = f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:{password}"
+    rs3 = session.get('https://www.instagram.com/accounts/login/')
+    ctk = re.search(r'csrf_token":"(.*?)"', rs3.text).group(1)
+
     headers = {
-        "user-agent": user_agent,
+        "user-agent": generate_user_agent(),
         "x-csrftoken": ctk,
         "x-ig-www-claim": "0",
     }
     
-    rs3 = ma.post(
+    response = session.post(
         "https://www.instagram.com/api/v1/web/accounts/login/ajax/",
         headers=headers,
         data={
@@ -32,16 +37,12 @@ def login(email, password):
         }
     )
     
-    headers.update({"x-ig-set-www-claim": "0"})
-    headers.update({"x-csrftoken": ctk})
-    
-    response_text = rs3.text
-    if "userId" in response_text:
-        return f'Good Login✅ : {email}:{password}\nUser-Agent: {user_agent}\nReq: {response_text}'
-    elif "checkpoint_required" in response_text:
-        return f"CP ➗ :{email}:{password}\nUser-Agent: {user_agent}\nReq: {response_text}"
+    if "userId" in response.text:
+        return jsonify({"status": "Good Login", "email": email, "password": password, "response": response.text})
+    elif "checkpoint_required" in response.text:
+        return jsonify({"status": "Checkpoint Required", "email": email, "password": password, "response": response.text})
     else:
-        return f"bad❌ : {email}:{password}\nUser-Agent: {user_agent}\nReq: {response_text}"
+        return jsonify({"status": "Bad Login", "email": email, "password": password, "response": response.text})
 
 if __name__ == '__main__':
     app.run(debug=True)
