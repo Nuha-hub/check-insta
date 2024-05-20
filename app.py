@@ -10,7 +10,7 @@ from hashlib import md5
 
 app = Flask(__name__)
 
-@app.route('/login/username=<username>/password=<password>/by/cc_02', methods=['GET'])
+@app.route('/login/username=<email>/password=<password>/by/cc_02', methods=['GET'])
 def login(email,password):
 	ma = requests.Session()
 	passwor = f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:{password}"
