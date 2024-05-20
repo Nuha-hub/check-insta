@@ -18,7 +18,7 @@ def login(email,password):
 	rs3 = ma.get('https://www.instagram.com/accounts/login/')
 	ctk = rs3.text.replace("\\", "").split('csrf_token\":\"')[1].split('"')[0]
 	headers = {
-	            "user-agent": generate_user_agent(),
+	            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
 	            "x-csrftoken": ctk,
 	            "x-ig-www-claim": "0",
 	        }
