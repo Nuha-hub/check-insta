@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 import requests
-from user_agent import generate_user_agent
 import re
 import time
 
@@ -22,7 +21,7 @@ def login():
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
         'accept-language': "ar",
-        "user-agent": generate_user_agent(),
+        "user-agent": request.headers.get('User-Agent'),
         "x-csrftoken": ctk,
         "x-ig-www-claim": "0",
     }
