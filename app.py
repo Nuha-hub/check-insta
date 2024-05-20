@@ -20,6 +20,7 @@ def login():
     ctk = re.search(r'csrf_token":"(.*?)"', rs3.text).group(1)
 
     headers = {
+        'Content-Type': "application/x-www-form-urlencoded",
         'accept-language': "ar",
         "user-agent": generate_user_agent(),
         "x-csrftoken": ctk,
