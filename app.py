@@ -1,6 +1,5 @@
-import requests,re,random,time
+import requests,time,random
 from user_agent import *
-from hashlib import md5
 from flask import Flask, jsonify, request
 import secrets,user_agent,requests,os
 import requests
@@ -12,38 +11,32 @@ from user_agent import *
 from hashlib import md5
 
 
-
-
 app = Flask(__name__)
 
-@app.route('/check/username_or_email=<email>/by/cc_02', methods=['GET'])
-def chk(email):
-	ma = requests.Session()
-	passwor = f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:hassan11inthetop878n"
-	s3 = ma.get('https://www.instagram.com/accounts/login/')
-	rs3 = ma.get('https://www.instagram.com/accounts/login/')
-	ctk = rs3.text.replace("\\", "").split('csrf_token\":\"')[1].split('"')[0]
+@app.route('/check/username=<username>', methods=['GET'])
+def chk(username):
+	io=requests.get("https://www.instagram.com/accounts/login/")
+	csrf=(io.cookies.get_dict()['csrftoken'])
+	url = "https://www.instagram.com/api/v1/web/accounts/web_create_ajax/"
+	payload = {
+		'enc_password':f'#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:132132132aa.je',
+		'email':'find5zxz@gmail.com',
+		'first_name':'Hasan',
+		'username':f'{username}'
+	}
 	headers = {
-	            "user-agent": generate_user_agent(),
-	            "x-csrftoken": ctk,
-	            "x-ig-www-claim": "0",
-	        }
-	rs3 = ma.post(
-	            "https://www.instagram.com/api/v1/web/accounts/login/ajax/",
-	            headers=headers,
-	data={
-	                "enc_password": passwor,
-	                "username": email,
-	                "queryParams": "{}",
-	                "optIntoOneTap": "false",
-	                "trustedDeviceRecords": "{}"
-	            },
-	        )
+	  'User-Agent':generate_user_agent(),
+	  'Content-Type': "application/x-www-form-urlencoded",
+	  'x-csrftoken': csrf,
+	  'x-ig-www-claim': "0",
+	  'Cookie': "csrftoken="+csrf
+	}
 	
-	headers.update({"x-ig-set-www-claim":"0"})
-	headers.update({"x-csrftoken": ctk})
-	return(rs3.text)
-	
+	response = requests.post(url, data=payload, headers=headers)
+	headers.update({'x-ig-www-claim':'0'})
+	headers.update({'Cookie': "csrftoken="+csrf})
+	headers.update({'x-csrftoken': csrf})
+	return(response.text)
 
 
 if __name__ == '__main__':
