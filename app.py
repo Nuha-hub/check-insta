@@ -53,15 +53,15 @@ def cohange(username,sess):
 		response = requests.post(url, data=payload, headers=headers)
 		print(response.text)
 		if '''{"status":"ok"}''' in response.text:
-			return ({'username':username,'status':'Done','By':'@te9egram'})
+			return ({'username':username,'status':'Done','By':'@cc_02'})
 		else:
-			return ({'username':username,'status':'bad','By':'@te9egram'})
+			return ({'username':username,'status':'bad','By':'@cc_02'})
 	try:
 		getMe(sess)
 		email,phone,name=getMe(sess)
 		return change(email=email,sess=sess,username=username,phone=phone,name=name)
 	except:
-		return ({'username':username,'status':'bad session','By':'@te9egram'})
+		return ({'username':username,'status':'bad session','By':'@cc_02'})
 	
 
 if __name__ == '__main__':
